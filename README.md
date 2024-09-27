@@ -1,7 +1,7 @@
 ### Installation
 1. **Clone this repo**
 2. **Access the project directory**
-3. ***For the backend***
+3. **For the backend**
 ```
 cd api
 ```
@@ -30,7 +30,10 @@ php artisan migrate
 php artisan serve
 ```
 
-4. ***For the frontend***
+4. **For the frontend**
+```
+cd client
+```
 ```
 npm install
 ```
