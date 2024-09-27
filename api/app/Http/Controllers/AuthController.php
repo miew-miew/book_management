@@ -6,7 +6,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -17,7 +16,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => $data['password']
         ]);
         $token = $user->createToken($request->name)->plainTextToken;
 
@@ -29,16 +28,17 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request) {
         $data = $request->validated();
-        if(!Auth::attempt($data)){  
-            return response([
-                'message' => 'Provided email address or password is incorrect.'
-            ]);
+        $user = User::where($data['email'], $request->email)->first();
+
+        if(!$user || !Hash::check($request->password, $user->password)){
+            return[
+                'message' => 'The provided credentiales are incorrect.'
+            ];
         }
-        /**@var User $user */
-        $user = Auth::user();
+
         $token = $user->createToken($user->name)->plainTextToken;
 
-        return[
+        return [
             'user' => $user,
             'token' => $token
         ];
@@ -46,6 +46,8 @@ class AuthController extends Controller
 
     public function logout(Request $request) {
         $request->user()->tokens()->delete();
-        return response('', 204);
+        return [
+            'message' => "You're logged out."
+        ];
     }
 }
