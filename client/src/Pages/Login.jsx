@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import Input from "../Components/Input";
 import { useState } from "react";
+import axiosClient from "../axios-client";
+import { useAppContext } from "../Contexts/ContextProvider";
 
 export default function Login () {
+    const {setUser,setToken} = useAppContext()
 
     const [formData, setFormData] = useState({
         email: '',
@@ -12,6 +15,17 @@ export default function Login () {
     function handleLogin(e){
         e.preventDefault();
         console.log(formData)
+        axiosClient.post('/api/login', formData)
+        .then(({data}) => {
+            setToken(data.token)
+            setUser(data.user)
+        })
+        .catch(error => {
+            const response = error.response
+            if(response && response.status === 422){
+                console.log(response.data.errors)
+            }
+        })
     }
 
     return (

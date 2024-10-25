@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import Input from "../Components/Input";
 import { useState } from "react";
+import axiosClient from "../axios-client"
+import { useAppContext } from "../Contexts/ContextProvider";
 
 export default function Register () {
+    const {setUser,setToken} = useAppContext()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -14,7 +17,17 @@ export default function Register () {
     function handleRegister(e){
         e.preventDefault();
         console.log(formData)
-
+        axiosClient.post('/api/register', formData)
+        .then(({data}) => {
+            setToken(data.token)
+            setUser(data.user)
+        })
+        .catch(error => {
+            const response = error.response
+            if(response && response.status === 422){
+                console.log(response.data.errors)
+            }
+        })
     }
 
     return (
