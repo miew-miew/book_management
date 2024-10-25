@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Models\Book;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 
-class PostController extends Controller implements HasMiddleware
+class BookController extends Controller
 {
 
     public static function middleware()
@@ -23,45 +22,45 @@ class PostController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return Post::all();
+        return Book::all();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StoreBookRequest $request)
     {
         $data = $request->validated();
-        $post = $request->user()->posts()->create($data);
-        return $post;
+        $book = $request->user()->books()->create($data);
+        return $book;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Book $book)
     {
-        return $post;
+        return $book;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdateBookRequest $request, Book $book)
     {
-        Gate::authorize("modify", $post);
+        Gate::authorize("modify", $book);
         $data = $request->validated();
-        $post->update($data);
-        return $post;
+        $book->update($data);
+        return $book;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Book $book)
     {
-        Gate::authorize("modify", $post);
-        $post->delete();
-        return ['message' => 'the post was deleted'];
+        Gate::authorize("modify", $book);
+        $book->delete();
+        return ['message' => 'the book was deleted'];
     }
 }
