@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\Gate;
 class BookController extends Controller
 {
 
-    public static function middleware()
+    public function __construct()
     {
         return [
             new Middleware('auth:sanctum', except: ['index', 'show'])
         ];
     }
+    
     /**
      * Display a listing of the resource.
      */

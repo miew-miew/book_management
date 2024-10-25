@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->text('title');
+            $table->string('title');
+            $table->string('book_cover');
             $table->longText('description');
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('deleted_by')->nullable()->constrained('users');
-            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
