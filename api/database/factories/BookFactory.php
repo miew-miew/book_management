@@ -2,22 +2,22 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Book>
- */
 class BookFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Book::class;
+
+    public function definition()
     {
         return [
-            //
+            'user_id' => User::factory(), // Crée un utilisateur associé
+            'author' => $this->faker->name,
+            'title' => $this->faker->sentence,
+            'book_cover' => $this->faker->imageUrl(),
+            'description' => $this->faker->paragraph,
         ];
     }
 }

@@ -5,19 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 
 class BookController extends Controller
 {
-
-    public function __construct()
-    {
-        return [
-            new Middleware('auth:sanctum', except: ['index', 'show'])
-        ];
-    }
-    
     /**
      * Display a listing of the resource.
      */
@@ -33,7 +24,7 @@ class BookController extends Controller
     {
         $data = $request->validated();
         $book = $request->user()->books()->create($data);
-        return $book;
+        return response($book, 201);
     }
 
     /**
@@ -62,6 +53,6 @@ class BookController extends Controller
     {
         Gate::authorize("modify", $book);
         $book->delete();
-        return ['message' => 'the book was deleted'];
+        return response()->json(['message' => 'The book was deleted'], 204);
     }
 }
