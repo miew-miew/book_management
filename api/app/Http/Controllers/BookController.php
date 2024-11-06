@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
 use Illuminate\Support\Facades\Gate;
 
 class BookController extends Controller
@@ -14,7 +15,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Book::all();
+        return BookResource::collection(
+            Book::query()->orderBy('id', 'desc')->get()
+        );
     }
 
     /**
@@ -24,7 +27,7 @@ class BookController extends Controller
     {
         $data = $request->validated();
         $book = $request->user()->books()->create($data);
-        return response($book, 201);
+        return response(new BookResource($book), 201); // Return BookResource for the created book
     }
 
     /**
@@ -32,7 +35,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return $book;
+        return new BookResource($book); // Return BookResource for the specific book
     }
 
     /**
@@ -43,7 +46,7 @@ class BookController extends Controller
         Gate::authorize("modify", $book);
         $data = $request->validated();
         $book->update($data);
-        return $book;
+        return new BookResource($book); // Return BookResource after updating the book
     }
 
     /**

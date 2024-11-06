@@ -4,6 +4,7 @@ import GuestLayout from "./Layouts/GuestLayout";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import Book from "./Pages/Book";
 
 const router = createBrowserRouter([
     {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home/>
+            },
+            {
+                path: '/book/:id',
+                element: <Book/>
             }
         ]
     },

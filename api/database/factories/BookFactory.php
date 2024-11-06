@@ -15,9 +15,9 @@ class BookFactory extends Factory
         return [
             'user_id' => User::factory(), // Crée un utilisateur associé
             'author' => $this->faker->name,
-            'title' => $this->faker->sentence,
-            'book_cover' => $this->faker->imageUrl(),
-            'description' => $this->faker->paragraph,
+            'title' => $this->faker->re(3, true), // Génère un titre réaliste
+            'book_cover' => $this->faker->imageUrl(200, 300, 'books', true, 'Cover'), // Image liée aux livres
+            'description' => $this->faker->realText(200), // Plus long et plus naturel
         ];
-    }
+    }    
 }

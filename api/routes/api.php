@@ -10,9 +10,16 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+// Public routes for fetching books and chapters
+Route::get('/books', [BookController::class, 'index']);
+Route::get('/books/{book}', [BookController::class, 'show']);
+Route::get('/books/{book}/chapters', [ChapterController::class, 'index']);
+Route::get('/books/{book}/chapters/{chapter}', [ChapterController::class, 'show']);
+
+// Authenticated routes for managing books and chapters
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('/books', BookController::class)->except(['index', 'show']);
-    Route::apiResource('books.chapters', ChapterController::class)->except(['index', 'show']);
+    Route::apiResource('/books', BookController::class);
+    Route::apiResource('books.chapters', ChapterController::class);
     
     Route::post('/logout', [AuthController::class, 'logout']);
 });
