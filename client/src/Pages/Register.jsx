@@ -6,6 +6,7 @@ import { useAppContext } from "../Contexts/ContextProvider";
 
 export default function Register () {
     const {setUser,setToken} = useAppContext()
+    const [errors,setErrors] = useState(null)
 
     const [formData, setFormData] = useState({
         name: '',
@@ -25,7 +26,13 @@ export default function Register () {
         .catch(error => {
             const response = error.response
             if(response && response.status === 422){
-                console.log(response.data.errors)
+                if(response.data.errors){
+                    setErrors(response.data.errors)
+                }else{
+                    setErrors({
+                        email: [response.data.message]
+                    })
+                }                    
             }
         })
     }
@@ -35,6 +42,13 @@ export default function Register () {
             <div className="w-1/3 bg-gray-200 p-8 rounded">
                 <h1 className="text-xl font-semibold mb-3 text-center">Register a new account</h1>
                 <form onSubmit={handleRegister}>
+                    {errors && (
+                        <div className="bg-red-500 text-white p-3 mb-3 rounded">
+                            {Object.keys(errors).map(key => (
+                                <p key={key}>{errors[key][0]}</p>
+                            ))}
+                        </div>
+                    )}
                     <Input 
                         placeholder="Name" 
                         value={formData.name} 

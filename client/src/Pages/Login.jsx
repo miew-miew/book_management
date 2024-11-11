@@ -6,6 +6,7 @@ import { useAppContext } from "../Contexts/ContextProvider";
 
 export default function Login () {
     const {setUser,setToken} = useAppContext()
+    const [errors,setErrors] = useState(null)
 
     const [formData, setFormData] = useState({
         email: '',
@@ -14,16 +15,21 @@ export default function Login () {
 
     function handleLogin(e){
         e.preventDefault();
-        console.log(formData)
         axiosClient.post('/api/login', formData)
         .then(({data}) => {
-            setToken(data.token)
             setUser(data.user)
+            setToken(data.token)
         })
-        .catch(error => {
-            const response = error.response
+        .catch(err => {
+            const response = err.response
             if(response && response.status === 422){
-                console.log(response.data.errors)
+                if(response.data.errors){
+                    setErrors(response.data.errors)
+                }else{
+                    setErrors({
+                        email: [response.data.message]
+                    })
+                }                    
             }
         })
     }
@@ -33,9 +39,16 @@ export default function Login () {
             <div className="w-1/3 flex flex-col justify-center bg-gray-200 gap-4 p-8 rounded-sm">
                 <span>Library's PWA</span>
                 <h1 className="text-xl font-semibold mb-3 text-center">Login into your account</h1>
-                <form onSubmit={handleLogin} className="flex flex-col gap-2">
-                    <Input
-                        type="email"
+                <form onSubmit={handleLogin}>
+                    {errors && (
+                        <div className="bg-red-500 text-white p-3 mb-3 rounded">
+                            {Object.keys(errors).map(key => (
+                                <p key={key}>{errors[key][0]}</p>
+                            ))}
+                        </div>
+                    )}
+                    <Input 
+                        type="email" 
                         placeholder="Email" 
                         value={formData.email} 
                         onChange={(e) => setFormData({...formData, email: e.target.value}) } 

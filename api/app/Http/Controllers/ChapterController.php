@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreChapterRequest;
 use App\Http\Requests\UpdateChapterRequest;
+use App\Http\Resources\ChapterResource;
 use App\Models\Book;
 use App\Models\Chapter;
 use Illuminate\Support\Facades\Gate;
@@ -15,8 +16,8 @@ class ChapterController extends Controller
      */
     public function index(Book $book)
     {
-        return $book->chapters;
-    }
+        return ChapterResource::collection($book->chapters);
+    }    
 
     /**
      * Store a newly created chapter in storage.
@@ -29,7 +30,7 @@ class ChapterController extends Controller
 
         $chapter = $book->chapters()->create($data);
 
-        return response()->json($chapter, 201); 
+        return response(new ChapterResource($chapter), 201); 
     }
 
     /**
@@ -40,7 +41,7 @@ class ChapterController extends Controller
         if ($chapter->book_id !== $book->id) {
             abort(404, 'Chapter not found in the specified book');
         }        
-        return $chapter;
+        return new ChapterResource($chapter);
     }
 
     /**
@@ -54,7 +55,7 @@ class ChapterController extends Controller
 
         $chapter->update($data);
 
-        return $chapter;
+        return new ChapterResource($chapter);
     }
 
     /**
