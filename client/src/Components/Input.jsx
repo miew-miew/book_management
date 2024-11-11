@@ -5,7 +5,7 @@ export default function TextInput({ type = 'text', ...props }) {
             <input
                 {...props}
                 type={type}
-                className='w-full p-2 mb-3 border border-gray-400 rounded-md shadow-sm'
+                className='w-full p-4 mb-3 border border-gray-400 rounded-md shadow-sm'
             />
         </div>
 
