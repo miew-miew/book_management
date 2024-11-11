@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 import NavLink from "../Components/NavLink";
 import { useAppContext } from "../Contexts/ContextProvider";
 import axiosClient from "../axios-client";
-import { useEffect, useState } from "react";
 
 export default function DefaultLayout() {
     const { user, token, setUser, setToken } = useAppContext();

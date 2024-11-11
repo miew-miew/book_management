@@ -35,8 +35,9 @@ export default function Login () {
     }
 
     return (
-        <div className="h-screen flex justify-center items-center">
-            <div className="w-1/3 bg-gray-200 p-8 rounded">
+        <div className="h-screen flex justify-center p-8">
+            <div className="w-1/3 flex flex-col justify-center bg-gray-200 gap-4 p-8 rounded-sm">
+                <span>Library's PWA</span>
                 <h1 className="text-xl font-semibold mb-3 text-center">Login into your account</h1>
                 <form onSubmit={handleLogin}>
                     {errors && (
@@ -52,21 +53,20 @@ export default function Login () {
                         value={formData.email} 
                         onChange={(e) => setFormData({...formData, email: e.target.value}) } 
                     />
-                    
                     <Input 
                         type="password" 
                         placeholder="Password" 
                         value={formData.password} 
                         onChange={(e) => setFormData({...formData, password: e.target.value}) } 
                     />
-                    
-                    <button className="bg-slate-800 p-2 text-white w-full rounded hover:bg-slate-700">Login</button>
+                    <span className="flex py-4">Password forgeten ?</span>
+                    <button className="bg-blue-500 p-4 text-white w-full rounded hover:bg-slate-700">Login</button>
                 </form>
                 <div className="w-full flex justify-center gap-1">
                     <p>Don't have an account?</p> 
                     <Link 
                     to="/register"
-                    className="text-blue-700"
+                    className="text-blue-500"
                     >
                         Register here
                     </Link>    
