@@ -6,6 +6,7 @@ import { useAppContext } from "../Contexts/ContextProvider";
 
 export default function Login () {
     const {setUser,setToken} = useAppContext()
+    const [errors,setErrors] = useState(null)
 
     const [formData, setFormData] = useState({
         email: '',
@@ -14,16 +15,21 @@ export default function Login () {
 
     function handleLogin(e){
         e.preventDefault();
-        console.log(formData)
         axiosClient.post('/api/login', formData)
         .then(({data}) => {
-            setToken(data.token)
             setUser(data.user)
+            setToken(data.token)
         })
-        .catch(error => {
-            const response = error.response
+        .catch(err => {
+            const response = err.response
             if(response && response.status === 422){
-                console.log(response.data.errors)
+                if(response.data.errors){
+                    setErrors(response.data.errors)
+                }else{
+                    setErrors({
+                        email: [response.data.message]
+                    })
+                }                    
             }
         })
     }
@@ -33,6 +39,13 @@ export default function Login () {
             <div className="w-1/3 bg-gray-200 p-8 rounded">
                 <h1 className="text-xl font-semibold mb-3 text-center">Login into your account</h1>
                 <form onSubmit={handleLogin}>
+                    {errors && (
+                        <div className="bg-red-500 text-white p-3 mb-3 rounded">
+                            {Object.keys(errors).map(key => (
+                                <p key={key}>{errors[key][0]}</p>
+                            ))}
+                        </div>
+                    )}
                     <Input 
                         type="email" 
                         placeholder="Email" 
