@@ -37,6 +37,18 @@ class StoreBookRequest extends FormRequest
             'description' => [
                 'required',
                 'string'
+            ],
+            'chapters' => [
+                'nullable',  
+                'array',  
+            ],
+            'chapters.*.title' => [
+                'nullable', 
+                'string',
+            ],
+            'chapters.*.content' => [
+                'nullable',  
+                'string',
             ]
         ];
     }

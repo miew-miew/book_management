@@ -35,8 +35,7 @@ export default function Home() {
                                 <Link to={`/book/${book.id}`}>
                                     <h2 className="text-xl font-bold italic">{book.title}</h2>
                                     <p className="text-sm font-semibold text-green-800">by {book.author}</p>
-                                    <img src={book.book_cover} alt={`Cover of ${book.title}`} className="w-full h-48 object-cover mt-2"/>
-                                    <p className="text-gray-800 mt-2">{book.description}</p>                                
+                                    <img src={book.book_cover} alt={`Cover of ${book.title}`} className="w-full h-48 object-cover mt-2"/>                            
                                 </Link>
                             </div>
                         ))

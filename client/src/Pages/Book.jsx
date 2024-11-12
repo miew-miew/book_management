@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axiosClient from "../axios-client";
 
 export default function Book() {
-    const { id } = useParams();  
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [chapters, setChapters] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -28,11 +29,16 @@ export default function Book() {
     const getChapters = () => {
         axiosClient.get(`/api/books/${id}/chapters`)
             .then(({ data }) => {
-                setChapters(data.data || []); // Ensure chapters is an array
+                setChapters(data.data || []);
             })
             .catch((error) => {
                 console.error("Failed to fetch chapters:", error);
             });
+    };
+
+    // Function to handle adding a new chapter
+    const handleAddChapter = () => {
+        navigate(`/books/${id}/chapters/new`);
     };
 
     return (
@@ -50,12 +56,20 @@ export default function Book() {
                         </div>
                     )}
 
-                    {/* Chapter list */}
+                    {/* Chapter list with add button */}
                     <div className="chapter-list mt-6">
-                        <h2 className="text-xl font-bold">Chapters</h2>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-xl font-bold">Chapters</h2>
+                            <button 
+                                onClick={handleAddChapter}
+                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            >
+                                Add Chapter
+                            </button>
+                        </div>
                         <ul className="mt-4 space-y-2">
-                            { chapters ? 
-                                (chapters.map((chapter) => (
+                            {chapters.length > 0 ? (
+                                chapters.map((chapter) => (
                                     <li key={chapter.id} className="text-blue-600 hover:underline">
                                         <Link to={`/books/${id}/chapters/${chapter.id}`}>
                                             {chapter.title}

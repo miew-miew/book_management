@@ -26,14 +26,23 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $data = $request->validated();
-    
+        
+        // Gérer l'upload du fichier de la couverture du livre
         if ($request->hasFile('book_cover')) {
-            $path = $request->file('book_cover')->store('book_covers', 'public'); // Save in storage/app/public/book_covers
+            $path = $request->file('book_cover')->store('book_covers', 'public');
             $data['book_cover'] = $path; 
         }
     
+        // Créer le livre
         $book = $request->user()->books()->create($data);
-    
+        
+        // Créer les chapitres associés au livre
+        if ($request->has('chapters')) {
+            foreach ($request->chapters as $chapterData) {
+                $book->chapters()->create($chapterData);
+            }
+        }
+        
         return response(new BookResource($book), 201);
     }
 
