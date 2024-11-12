@@ -26,8 +26,15 @@ class BookController extends Controller
     public function store(StoreBookRequest $request)
     {
         $data = $request->validated();
+    
+        if ($request->hasFile('book_cover')) {
+            $path = $request->file('book_cover')->store('book_covers', 'public'); // Save in storage/app/public/book_covers
+            $data['book_cover'] = $path; 
+        }
+    
         $book = $request->user()->books()->create($data);
-        return response(new BookResource($book), 201); // Return BookResource for the created book
+    
+        return response(new BookResource($book), 201);
     }
 
     /**
@@ -37,7 +44,7 @@ class BookController extends Controller
     {
         return new BookResource($book); // Return BookResource for the specific book
     }
-
+    
     /**
      * Update the specified resource in storage.
      */

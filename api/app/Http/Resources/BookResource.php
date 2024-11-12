@@ -19,7 +19,7 @@ class BookResource extends JsonResource
             'user_id' => $this->user_id,
             'author' => $this->author,
             'title' => $this->title,
-            'book_cover' => $this->book_cover,
+            'book_cover' => $this->book_cover ? asset('storage/' . $this->book_cover) : null,
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

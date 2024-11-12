@@ -9,34 +9,38 @@ export default function BookForm() {
         author: '',
         description: ''
     });
-    const [bookCover, setBookCover] = useState(null); // State for cover image
+    const [bookCover, setBookCover] = useState(null); 
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState(null);
     const navigate = useNavigate();
 
     const handleFileChange = (e) => {
-        setBookCover(e.target.files[0]); // Store the selected file
+        setBookCover(e.target.files[0]); 
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setErrors(null);
 
         const formData = new FormData();
         formData.append('title', bookData.title);
         formData.append('author', bookData.author);
         formData.append('description', bookData.description);
         if (bookCover) {
-            formData.append('book_cover', bookCover); // Append the file if it's selected
+            formData.append('book_cover', bookCover); 
         }
 
         try {
-            await axiosClient.post('/api/books', formData, {
-            });
+            await axiosClient.post('/api/books', formData);
             setLoading(false);
             navigate('/');
         } catch (error) {
             setLoading(false);
-            console.error("Failed to save book:", error);
+            if (error.response && error.response.data) {
+                setErrors(error.response.data.errors || 'An error occurred');
+                console.error("Failed to save book:", error);
+            }
         }
     };
 
@@ -76,6 +80,15 @@ export default function BookForm() {
                         hover:file:bg-blue-500"
                     />
                 </div>
+
+                {errors && (
+                    <div className="bg-red-500 text-white p-3 mb-3 rounded">
+                        {Object.keys(errors).map(key => (
+                            <p key={key}>{errors[key][0]}</p>
+                        ))}
+                    </div>
+                )}
+
                 <button 
                     type="submit" 
                     className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 ${loading ? 'opacity-50' : ''}`}
