@@ -35,7 +35,7 @@ export default function DefaultLayout() {
     return (
         <div>
             <header>
-                <nav className="w-full flex items-center p-2 px-9 bg-gray-900 justify-between">
+                <nav className="w-full flex items-center py-2 px-9 bg-gray-900 justify-between">
                     <NavLink to="/">Home</NavLink>
                     {user ? (
                         <div className="flex items-center space-x-4">

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
+import AnimationBooks from "../Components/AnimationBooks";
+import OtherBooks from "../Components/OtherBooks";
+import LatestBooks from "../Components/LatestBooks";
 
 export default function Home() {
     const [books, setBooks] = useState([]);
@@ -23,7 +26,7 @@ export default function Home() {
     };
 
     return (
-        <div>
+        <div className="flex flex-col px-4 xl:px-20 ">
             <h1 className="text-lg">Latest Books</h1>
             {loading ? (
                 <p>Loading...</p>
@@ -44,7 +47,13 @@ export default function Home() {
                         <p>No books available.</p>
                     )}
                 </div>
+                
             )}
+            <AnimationBooks />
+            {/* affichage des dernier sorti */}
+            <LatestBooks />
+            {/* Other book */}
+            <OtherBooks />
         </div>
     );
 };

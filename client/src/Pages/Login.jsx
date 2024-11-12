@@ -37,7 +37,6 @@ export default function Login () {
     return (
         <div className="h-screen flex justify-center p-8">
             <div className="w-1/3 flex flex-col justify-center bg-gray-200 gap-4 p-8 rounded-sm">
-                <span>Library's PWA</span>
                 <h1 className="text-xl font-semibold mb-3 text-center">Login into your account</h1>
                 <form onSubmit={handleLogin}>
                     {errors && (
