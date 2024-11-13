@@ -9,34 +9,60 @@ export default function BookForm() {
         author: '',
         description: ''
     });
-    const [bookCover, setBookCover] = useState(null); // State for cover image
+    const [bookCover, setBookCover] = useState(null);
+    const [chapters, setChapters] = useState([{ title: '', content: '' }]); // Initial state for chapters
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState(null);
     const navigate = useNavigate();
 
     const handleFileChange = (e) => {
-        setBookCover(e.target.files[0]); // Store the selected file
+        setBookCover(e.target.files[0]);
+    };
+
+    const handleChapterChange = (index, field, value) => {
+        const newChapters = [...chapters];
+        newChapters[index][field] = value;
+        setChapters(newChapters);
+    };
+
+    const addChapter = () => {
+        setChapters([...chapters, { title: '', content: '' }]);
+    };
+
+    const removeChapter = (index) => {
+        const newChapters = chapters.filter((_, i) => i !== index);
+        setChapters(newChapters);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setErrors(null);
 
         const formData = new FormData();
         formData.append('title', bookData.title);
         formData.append('author', bookData.author);
         formData.append('description', bookData.description);
         if (bookCover) {
-            formData.append('book_cover', bookCover); // Append the file if it's selected
+            formData.append('book_cover', bookCover);
         }
 
+        // Append each chapter to the formData
+        chapters.forEach((chapter, index) => {
+            formData.append(`chapters[${index}][title]`, chapter.title);
+            formData.append(`chapters[${index}][content]`, chapter.content);
+        });
+
         try {
-            await axiosClient.post('/api/books', formData, {
-            });
+            await axiosClient.post('/api/books', formData);
             setLoading(false);
             navigate('/');
         } catch (error) {
             setLoading(false);
-            console.error("Failed to save book:", error);
+            if (error.response && error.response.data) {
+                setErrors(error.response.data.errors || 'An error occurred');
+                console.error("Failed to save book:", error);
+            }
         }
     };
 
@@ -76,6 +102,51 @@ export default function BookForm() {
                         hover:file:bg-blue-500"
                     />
                 </div>
+
+                {/* Chapter Section */}
+                <div className="mt-6">
+                    <h3 className="text-xl font-semibold mb-2">Chapters</h3>
+                    {chapters.map((chapter, index) => (
+                        <div key={index} className="mb-4">
+                            <Input 
+                                type="text" 
+                                placeholder="Chapter Title" 
+                                value={chapter.title}
+                                onChange={(e) => handleChapterChange(index, 'title', e.target.value)}
+                            />
+                            <textarea 
+                                placeholder="Chapter Content" 
+                                value={chapter.content}
+                                onChange={(e) => handleChapterChange(index, 'content', e.target.value)}
+                                className="w-full p-2 border rounded-md mt-2" 
+                                rows="3"
+                            />
+                            <button 
+                                type="button" 
+                                onClick={() => removeChapter(index)} 
+                                className="text-red-600 hover:underline mt-2"
+                            >
+                                Remove Chapter
+                            </button>
+                        </div>
+                    ))}
+                    <button 
+                        type="button" 
+                        onClick={addChapter} 
+                        className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-400"
+                    >
+                        Add Chapter
+                    </button>
+                </div>
+
+                {errors && (
+                    <div className="bg-red-500 text-white p-3 mb-3 rounded">
+                        {Object.keys(errors).map(key => (
+                            <p key={key}>{errors[key][0]}</p>
+                        ))}
+                    </div>
+                )}
+
                 <button 
                     type="submit" 
                     className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 ${loading ? 'opacity-50' : ''}`}

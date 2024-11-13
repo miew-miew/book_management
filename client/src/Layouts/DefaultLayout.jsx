@@ -35,10 +35,10 @@ export default function DefaultLayout() {
     return (
         <div>
             <header>
-                <nav className="w-full flex items-center py-2 px-9 bg-gray-900 justify-between">
-                    <NavLink to="/">Home</NavLink>
+                <nav className="w-full flex items-center py-2 px-9 justify-between bg-[#121216] ">
+                    <NavLink to="/"><span className="uppercase font-extrabold text-[1.3rem] ">Home</span></NavLink>
                     {user ? (
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4 shadow-md">
                             <NavLink to="/book/create" className="text-white font-semibold bg-blue-600 px-3 py-1 rounded-lg hover:bg-blue-500">
                                 Add A New Book
                             </NavLink>
@@ -67,7 +67,7 @@ export default function DefaultLayout() {
                 </nav>
             </header>
             <main>
-                <div className="px-9 py-2">
+                <div className="bg-[#101014]">
                     <Outlet />
                 </div>
             </main>

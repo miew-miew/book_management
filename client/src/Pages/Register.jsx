@@ -39,8 +39,8 @@ export default function Register () {
 
     return (
         <div className="h-screen flex justify-center p-8">
-            <div className="w-1/3 flex flex-col justify-center bg-gray-200 gap-4 p-8 rounded-sm">
-                <h1 className="text-xl font-semibold mb-3 text-center">Register a new account</h1>
+            <div className="w-1/3 bg-[#202020] p-8 rounded">
+                <h1 className="text-xl text-white font-semibold mb-3 text-center">Register a new account</h1>
                 <form onSubmit={handleRegister}>
                     {errors && (
                         <div className="bg-red-500 text-white p-3 mb-3 rounded">
@@ -76,7 +76,7 @@ export default function Register () {
                         onChange={(e) => setFormData({...formData, password_confirmation: e.target.value}) } 
                     />
 
-                    <button className="bg-blue-500 p-4 text-white w-full rounded hover:bg-slate-700">Register</button>
+                    <button className="bg-[#0074E4] p-4 text-white w-full rounded">Register</button>
                 </form>
                 <div className="w-full flex justify-center gap-1">
                     <p>Already have an account?</p> 

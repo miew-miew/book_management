@@ -1,59 +1,13 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axiosClient from "../axios-client";
-import AnimationBooks from "../Components/AnimationBooks";
-import OtherBooks from "../Components/OtherBooks";
-import LatestBooks from "../Components/LatestBooks";
-
+import AllBooks from "../Components/AllBooks";
+import AnimationBooks from '../Components/AnimationBooks'
+import Search from "../Components/Search";
 export default function Home() {
-    const [books, setBooks] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        getBooks();
-    }, []);
-
-    const getBooks = () => {
-        axiosClient.get('/api/books')
-            .then(({ data }) => {
-                setLoading(false)
-                setBooks(data.data)
-            })
-            .catch((error) => {
-                console.error("Failed to fetch books:", error);
-                setLoading(false);
-            })
-    };
 
     return (
-        <div className="flex flex-col px-4 xl:px-20 ">
-            <h1 className="text-lg">Latest Books</h1>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {books.length > 0 ? (
-                        books.map(book => (
-                            <div key={book.id} className="border p-4 rounded shadow-md">
-                                <Link to={`/book/${book.id}`}>
-                                    <h2 className="text-xl font-bold italic">{book.title}</h2>
-                                    <p className="text-sm font-semibold text-green-800">by {book.author}</p>
-                                    <img src={book.book_cover} alt={`Cover of ${book.title}`} className="w-full h-48 object-cover mt-2"/>
-                                    <p className="text-gray-800 mt-2">{book.description}</p>                                
-                                </Link>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No books available.</p>
-                    )}
-                </div>
-                
-            )}
+        <div className="px-4 md:px-10 lg:px-24 xl:px-40 overflow-hidden">
+            <Search />
             <AnimationBooks />
-            {/* affichage des dernier sorti */}
-            <LatestBooks />
-            {/* Other book */}
-            <OtherBooks />
+            <AllBooks />
         </div>
     );
 };
