@@ -47,7 +47,7 @@ export default function BookForm() {
             formData.append('book_cover', bookCover);
         }
 
-        // Append each chapter to the formData
+        // Append only non-empty chapters
         chapters
         .filter((chapter) => chapter.title && chapter.content)
         .forEach((chapter, index) => {
