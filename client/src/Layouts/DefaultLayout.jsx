@@ -14,7 +14,7 @@ export default function DefaultLayout() {
             .then(({ data }) => {
                 setUser(data);
             });
-    }, []); // Add empty dependency array to avoid multiple calls
+    }, []);
 
     if (!token) {
         return <Navigate to="/login" />;

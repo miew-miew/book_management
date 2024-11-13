@@ -32,7 +32,7 @@ export default function Home() {
                     {books.length > 0 ? (
                         books.map(book => (
                             <div key={book.id} className="border p-4 rounded shadow-md">
-                                <Link to={`/book/${book.id}`}>
+                                <Link to={`/${book.title}/${book.id}`}>
                                     <h2 className="text-xl font-bold italic">{book.title}</h2>
                                     <p className="text-sm font-semibold text-green-800">by {book.author}</p>
                                     <img src={book.book_cover} alt={`Cover of ${book.title}`} className="w-full h-48 object-cover mt-2"/>                            

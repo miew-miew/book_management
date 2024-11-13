@@ -48,7 +48,9 @@ export default function BookForm() {
         }
 
         // Append each chapter to the formData
-        chapters.forEach((chapter, index) => {
+        chapters
+        .filter((chapter) => chapter.title && chapter.content)
+        .forEach((chapter, index) => {
             formData.append(`chapters[${index}][title]`, chapter.title);
             formData.append(`chapters[${index}][content]`, chapter.content);
         });
@@ -60,7 +62,7 @@ export default function BookForm() {
         } catch (error) {
             setLoading(false);
             if (error.response && error.response.data) {
-                setErrors(error.response.data.errors || 'An error occurred');
+                setErrors(error.response.data.errors);
                 console.error("Failed to save book:", error);
             }
         }

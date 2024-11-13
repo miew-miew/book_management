@@ -38,7 +38,7 @@ export default function Book() {
 
     // Function to handle adding a new chapter
     const handleAddChapter = () => {
-        navigate(`/books/${id}/chapters/new`);
+        navigate(`/${book.title}/${id}/chapter/create`);
     };
 
     return (
@@ -71,7 +71,7 @@ export default function Book() {
                             {chapters.length > 0 ? (
                                 chapters.map((chapter) => (
                                     <li key={chapter.id} className="text-blue-600 hover:underline">
-                                        <Link to={`/books/${id}/chapters/${chapter.id}`}>
+                                        <Link to={`/${book.title}/${id}/chapter/${chapter.id}`}>
                                             {chapter.title}
                                         </Link>
                                     </li>

@@ -7,6 +7,7 @@ import Register from "./Pages/Register";
 import Book from "./Pages/Book";
 import BookForm from "./Pages/BookForm";
 import Chapter from "./Pages/Chapter";
+import ChapterForm from "./Pages/ChapterForm";
 
 const router = createBrowserRouter([
     {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: '/book/:id',
+                path: '/:book/:id',
                 element: <Book/>
             },
             {
@@ -26,8 +27,12 @@ const router = createBrowserRouter([
                 element: <BookForm/>
             },
             {
-                path: '/books/:id/chapters/:chapterId',
+                path: '/:book/:id/chapter/:chapterId',
                 element: <Chapter/>
+            },
+            {
+                path: '/:book/:id/chapter/create',
+                element: <ChapterForm/>
             }
         ]
     },
