@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->integer('progress')->default(0); // Progression en pourcentage
+            $table->integer('progress')->default(0); 
             $table->timestamps();
         });
     }
