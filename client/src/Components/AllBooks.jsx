@@ -41,8 +41,8 @@ function AllBooks() {
                                 <div key={book.id} className="w-[40vw] md:w-[22vw] lg:w-[15vw] xl:w-[14vw]">
                                     <Link to={`/book/${book.id}`}>
                                     <div className="flex flex-col w-[40vw] md:w-[22vw] lg:w-[15vw] xl:w-[14vw] gap-3 items-start pb-16">
-                                        <div className="w-[40vw] md:w-[22vw] lg:w-[15vw] xl:w-[14vw] h-[35vh] md:h-[45vh] lg:h-[35vh] xl:h-[40vh] rounded-lg shadow-md bg-white">
-                                            <img src={book.book_cover} alt={`Cover of ${book.title}`} className="object-cover w-full h-full rounded-xl" />
+                                        <div className="w-[40vw] md:w-[22vw] lg:w-[15vw] xl:w-[14vw] h-[35vh] md:h-[45vh] lg:h-[35vh] xl:h-[40vh] rounded-lg shadow-md bg-white/20">
+                                            <img src={book.book_cover} alt={`Cover of ${book.title}`} className="object-cover w-full h-full rounded-lg" />
                                         </div>
                                         <div className="flex flex-col gap-1 pb-2 h-[12vh] xl:h-[13vh]">
                                             <span className="text-[#ffffffa6] ">by {book.author}</span>

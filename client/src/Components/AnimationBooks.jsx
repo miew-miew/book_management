@@ -79,7 +79,7 @@ function AnimationBooks() {
                 <div className="flex flex-row gap-8 items-stretch">
                     <div className="bg-blue-500 rounded-2xl flex flex-col md:w-[75vw] xl:w-[53vw] justify-end">
                         {books.length > 0 && !loading ? (
-                            <Link to={`/book/${books[currentIndex].id}`} className="block md:w-[75vw] xl:w-[53vw]">
+                            <Link to={`/book/${books[currentIndex].id}`} className="md:w-[75vw] xl:w-[53vw]">
                                 <div
                                     className={`transition-opacity duration-500 ${
                                         isAnimating ? "opacity-0" : "opacity-100"
@@ -107,17 +107,17 @@ function AnimationBooks() {
                                 </div>
                             </Link>
                         ) : (
-                            <div className="bg-blue-500 rounded-2xl p-4 h-full"></div>
+                            <div className="bg-white rounded-2xl p-4 h-full"></div>
                         )}
                     </div>
                     {loading ? (
                         <div className="flex flex-col gap-6 h-full">
-                            <div className="flex flex-row gap-10 items-center p-2 w-[20vw] h-[15vh] bg-blue-500 rounded-xl relative overflow-hidden">
+                            <div className="flex flex-row gap-10 items-center p-2 w-[20vw] h-[15vh] bg-white rounded-xl relative overflow-hidden">
                                 <div className="w-[6vw] bg-white h-[13vh] rounded-md"></div>
                                 <span className="text-white text-[1rem] font-bold">Title</span>
                             </div>
                             {[...Array(3)].map((_, index) => (
-                                <div key={index} className="w-[20vw] h-[15vh] bg-blue-500 rounded-xl"></div>
+                                <div key={index} className="w-[20vw] h-[15vh] bg-white rounded-xl"></div>
                             ))}
                         </div>
                         ) : (
@@ -127,11 +127,11 @@ function AnimationBooks() {
                                         <div key={book.id} className="relative">
                                             <div
                                                 onClick={() => handleBookClick(index)}
-                                                className={`cursor-pointer flex flex-row gap-2 items-center p-2 w-[20vw] h-[11vh] rounded-xl relative overflow-hidden ${
+                                                className={`cursor-pointer flex flex-row gap-4 items-center p-2 w-[20vw] h-[11vh] rounded-xl relative overflow-hidden ${
                                                     currentIndex === index ? "bg-[#28282C]" : "bg-transparent"
                                                 }`}
                                             >
-                                                <div className="w-[4vw] bg-white h-[20vh] lg:h-[10vh] rounded-md">
+                                                <div className="w-[3.2vw] bg-white h-[20vh] lg:h-[10vh] rounded-md">
                                                     <img 
                                                         src={book.image} 
                                                         alt={book.title} 

@@ -35,7 +35,7 @@ export default function DefaultLayout() {
     return (
         <div>
             <header>
-                <nav className="w-full flex items-center py-2 px-9 justify-between bg-[#121216] ">
+                <nav className="w-full flex items-center py-2 px-9 justify-between bg-[#121216] shadow-sm shadow-white">
                     <NavLink to="/"><span className="uppercase font-extrabold text-[1.3rem] ">Home</span></NavLink>
                     {user ? (
                         <div className="flex items-center space-x-4 shadow-md">
