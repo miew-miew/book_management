@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\ReadingProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/books', BookController::class);
     Route::apiResource('books.chapters', ChapterController::class);
     
+    Route::post('/books/{book}/chapters/{chapter}/read', [ChapterController::class, 'markAsRead']);
+    Route::get('/books/{book}/read-chapters', [ChapterController::class, 'getReadChapters']);
+
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 

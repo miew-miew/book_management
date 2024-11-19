@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateChapterRequest;
 use App\Http\Resources\ChapterResource;
 use App\Models\Book;
 use App\Models\Chapter;
+use App\Models\MarkChapterAsRead;
 use Illuminate\Support\Facades\Gate;
 
 class ChapterController extends Controller
@@ -68,4 +69,29 @@ class ChapterController extends Controller
         $chapter->delete();
         return response()->json(['message' => 'The chapter was deleted'], 204);    
     }
+
+    public function markAsRead(Book $book, Chapter $chapter)
+    {
+        if ($chapter->book_id !== $book->id) {
+            abort(404, 'Chapter not found in the specified book');
+        }
+
+        MarkChapterAsRead::firstOrCreate([
+            'user_id' => auth()->id(),
+            'chapter_id' => $chapter->id,
+        ]);
+
+        return response()->json(['message' => 'Chapter marked as read'], 200);
+    }
+
+    public function getReadChapters(Book $book)
+    {
+        $readChapters = MarkChapterAsRead::where('user_id', auth()->id())
+            ->whereIn('chapter_id', $book->chapters->pluck('id'))
+            ->pluck('chapter_id')
+            ->toArray();
+
+        return response()->json($readChapters);
+    }
+
 }
