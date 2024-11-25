@@ -39,35 +39,51 @@ export default function BookForm() {
         setLoading(true);
         setErrors(null);
 
-        const formData = new FormData();
-        formData.append('title', bookData.title);
-        formData.append('author', bookData.author);
-        formData.append('description', bookData.description);
-        if (bookCover) {
-            formData.append('book_cover', bookCover);
-        }
+        // Filtrer les chapitres vides
+        const filteredChapters = chapters.filter(
+            (chapter) => chapter.title.trim() || chapter.content.trim()
+        );
 
-        // Append only non-empty chapters
-        chapters
-        .filter((chapter) => chapter.title && chapter.content)
-        .forEach((chapter, index) => {
-            formData.append(`chapters[${index}][title]`, chapter.title);
-            formData.append(`chapters[${index}][content]`, chapter.content);
+        // Construire les données
+        const data = {
+            title: bookData.title,
+            author: bookData.author,
+            description: bookData.description,
+            chapters: filteredChapters, // Inclure uniquement les chapitres valides
+        };
+
+        // Ajouter les données au FormData pour inclure l'image
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+            if (key === "chapters") {
+                value.forEach((chapter, index) => {
+                    Object.entries(chapter).forEach(([chapterKey, chapterValue]) => {
+                        formData.append(`chapters[${index}][${chapterKey}]`, chapterValue);
+                    });
+                });
+            } else {
+                formData.append(key, value);
+            }
         });
 
+        if (bookCover) {
+            formData.append("book_cover", bookCover);
+        }
+
+        // Envoi des données
         try {
-            await axiosClient.post('/api/books', formData);
+            await axiosClient.post("/api/books", formData);
             setLoading(false);
-            navigate('/');
+            navigate("/");
         } catch (error) {
             setLoading(false);
             if (error.response && error.response.data) {
-                setErrors(error.response.data.errors);
-                console.error("Failed to save book:", error);
+                setErrors(error.response.data.errors || "An error occurred");
             }
+            console.error("Failed to save book:", error);
         }
     };
-
+    
     return (
         <div className="p-4">
             <h2 className="text-2xl font-semibold mb-4">Add a New Book</h2>

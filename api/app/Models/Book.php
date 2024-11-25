@@ -23,7 +23,13 @@ class Book extends Model
     return $this->belongsTo(User::class);
 }
 
-    public function chapters(): HasMany {
+    public function chapters(): HasMany 
+    {
         return $this->hasMany(Chapter::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

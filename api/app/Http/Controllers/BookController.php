@@ -30,21 +30,23 @@ class BookController extends Controller
         // Gérer l'upload du fichier de la couverture du livre
         if ($request->hasFile('book_cover')) {
             $path = $request->file('book_cover')->store('book_covers', 'public');
-            $data['book_cover'] = $path; 
+            $data['book_cover'] = $path;
         }
     
         // Créer le livre
         $book = $request->user()->books()->create($data);
-        
-        // Créer les chapitres associés au livre
-        if ($request->has('chapters')) {
-            foreach ($request->chapters as $chapterData) {
-                $book->chapters()->create($chapterData);
+    
+        // Filtrer les chapitres et les associer au livre
+        if (!empty($data['chapters'])) {
+            foreach ($data['chapters'] as $chapterData) {
+                if (!empty($chapterData['title']) || !empty($chapterData['content'])) {
+                    $book->chapters()->create($chapterData);
+                }
             }
         }
-        
+    
         return response(new BookResource($book), 201);
-    }
+    }    
 
     /**
      * Display the specified resource.
