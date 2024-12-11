@@ -4,7 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ReadingProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +31,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+// Route pour le manifest.webmanifest
+Route::get('/manifest.webmanifest', function () {
+    return response()->file(public_path('manifest.webmanifest'));
+});
+
+// Route pour le service-worker.js
+Route::get('/service-worker.js', function () {
+    return response()->file(public_path('sw.js')); // Assurez-vous que le nom du fichier est correct
+});
