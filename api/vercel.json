@@ -16,7 +16,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://book-api.vercel.app",
+        "APP_URL": "https://book-qkevz72w5-famenontsoa-ny-ainas-projects.vercel.app",
         "APP_KEY": "base64:Sckv8+XOwOD449C2KAyDqNQMDXcnCzZQUgbcIzNqIF4=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
