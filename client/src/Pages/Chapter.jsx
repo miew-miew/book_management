@@ -21,7 +21,7 @@ export default function Chapter() {
     }, [id, chapterId]);
 
     return (
-        <div>
+        <div className="bg-white p-10 md:p-20">
             {loading ? (
                 <p>Loading...</p>
             ) : (

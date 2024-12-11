@@ -46,11 +46,14 @@ function AllBooks() {
                                         </div>
                                         <div className="flex flex-col gap-1 pb-2 h-[12vh] xl:h-[13vh]">
                                             <span className="text-[#ffffffa6] ">by {book.author}</span>
-                                            <span className="font-bold text-[1.2rem] text-white">
-                                                {book.title.length > 35 ? `${book.title.slice(0, 35)}...` : book.title}
+                                            <span className="font-bold text-[1.2rem] text-white hidden md:block">
+                                                {book.title.length > 33 ? `${book.title.slice(0, 33)}...` : book.title}
+                                            </span>
+                                            <span className="font-bold text-[1.2rem] text-white md:hidden">
+                                                {book.title.length > 20 ? `${book.title.slice(0, 20)}...` : book.title}
                                             </span>
                                         </div>
-                                        <button className="bg-[#26BBFF] px-3 py-1 rounded-full text-black mt-auto text-[0.8rem] ">Read</button> {/* Utilise mt-auto ici */}
+                                        <button className="bg-[#26BBFF] px-3 py-1 rounded-full text-black mt-4  lg:mt-auto text-[0.8rem] ">Read</button> {/* Utilise mt-auto ici */}
                                     </div>
 
                                     </Link>

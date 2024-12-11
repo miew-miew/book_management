@@ -13,9 +13,7 @@ class ChapterFactory extends Factory
     public function definition()
     {
         return [
-            'book_id' => Book::factory(),
-            'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraph,
+            //
         ];
     }
 }

@@ -20,11 +20,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'nyaina@gmail.com',
             'password' => 'cutie.pie'
         ]);
-
-        // Créer 10 livres avec 3 chapitres chacun
-        Book::factory()
-        ->count(10)
-        ->has(Chapter::factory()->count(3))
-        ->create();
     }
 }

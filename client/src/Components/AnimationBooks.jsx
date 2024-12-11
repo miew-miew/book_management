@@ -49,7 +49,7 @@ function AnimationBooks() {
 
     return (
         <div>
-            <div className="md:hidden px-4">
+            {/* <div className="md:hidden px-4">
                 {loading ? (
                     <div className="flex flex-row gap-4">
                         <div className="flex flex-col p-4 justify-end w-[82vw] h-[60vh] bg-blue-500 rounded-xl">
@@ -63,9 +63,17 @@ function AnimationBooks() {
                             {books.slice(0, 4).map((book) => (
                                 <div key={book.id}>
                                     <Link to={`/book/${book.id}`}>
-                                        <div className="flex flex-col p-4 justify-end w-[82vw] h-[60vh] bg-blue-500 rounded-xl">
-                                            <span className="text-[2rem] font-bold text-white">{book.title}</span>
-                                            <span className="text-white">{book.description}</span>
+                                        <div className={`flex flex-col p-4 justify-end w-[82vw] h-[60vh] bg-blue-500 rounded-xl`}
+                                        style={{
+                                            backgroundImage: books.length > 0 ? `url(${books[currentIndex].book_cover})` : 'none',
+                                        }}
+                                        >
+                                            <span className="text-[1.4rem] font-bold text-white">{book.title}</span>
+                                            <span className="text-white">
+                                                {books[currentIndex].description.length > 35
+                                                    ? `${books[currentIndex].description.slice(0, 35)}...`
+                                                    : books[currentIndex].description}
+                                            </span>
                                         </div>
                                     </Link>
                                 </div>
@@ -73,24 +81,17 @@ function AnimationBooks() {
                         </div>
                     </div>
                 )}
-            </div>
+            </div> */}
 
             <div className="hidden md:block ">
                 <div className="flex flex-row gap-8 items-stretch">
-                    <div className="bg-blue-500 rounded-2xl flex flex-col md:w-[75vw] xl:w-[53vw] justify-end">
+                    <div className={`rounded-2xl flex flex-col md:w-[75vw] xl:w-[53vw] justify-end bg-cover bg-no-repeat bg-center`}
+                    style={{
+                        backgroundImage: books.length > 0 ? `url(${books[currentIndex].book_cover})` : 'none',
+                    }}
+                    >
                         {books.length > 0 && !loading ? (
                             <Link to={`/book/${books[currentIndex].id}`} className="md:w-[75vw] xl:w-[53vw]">
-                                <div
-                                    className={`transition-opacity duration-500 ${
-                                        isAnimating ? "opacity-0" : "opacity-100"
-                                    }`}
-                                >
-                                    <img
-                                        src={books[currentIndex].image}
-                                        alt={books[currentIndex].title}
-                                        className="w-full h-full object-fill rounded-xl mb-4"
-                                    />
-                                </div>
                                 <div
                                     className={`flex flex-col gap-2 transition-opacity duration-500 p-4 z-20 ${
                                         isAnimating ? "opacity-0" : "opacity-100"
@@ -131,9 +132,9 @@ function AnimationBooks() {
                                                     currentIndex === index ? "bg-[#28282C]" : "bg-transparent"
                                                 }`}
                                             >
-                                                <div className="w-[3.2vw] bg-white h-[20vh] lg:h-[10vh] rounded-md">
+                                                <div className="min-w-[3.2vw] bg-white h-[20vh] lg:h-[10vh] rounded-md">
                                                     <img 
-                                                        src={book.image} 
+                                                        src={book.book_cover} 
                                                         alt={book.title} 
                                                         className="object-cover w-full h-full rounded-md"
                                                     />

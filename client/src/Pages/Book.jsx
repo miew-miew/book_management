@@ -79,18 +79,18 @@ export default function Book() {
     };
 
     return (
-        <div className="flex flex-row">
+        <div className="flex flex-col min-h-screen">
             {/* Left Section: Book Details */}
-            <div className="flex-1 px-40 pt-20">
+            <div className="flex-1 px-10 lg:px-40 pt-10">
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
                     <div className="book-details">
                         {book && (
                             <div>
-                                <h1 className="text-[3rem] font-bold text-white">{book.title}</h1>
+                                <h1 className="text-[20px] md:text-[3rem] font-bold text-white">{book.title}</h1>
                                 <p className="text-lg font-semibold text-[#CFCFD0]">by {book.author}</p>
-                                <img src={book.book_cover} alt={`Cover of ${book.title}`} className="w-full h-[50vh] bg-white rounded-xl object-cover mt-4" />
+                                <img src={book.book_cover} alt={`Cover of ${book.title}`} className="w-full h-[55vh] bg-white rounded-xl object-cover mt-4" />
                                 <p className="mt-4 text-white">{book.description}</p>
                             </div>
                         )}
@@ -126,7 +126,7 @@ export default function Book() {
                                         </li>
                                     ))
                                 ) : (
-                                    <p>No chapters available</p>
+                                    <p className="text-white">No chapters available</p>
                                 )}
                             </ul>
                         </div>
@@ -135,7 +135,7 @@ export default function Book() {
             </div>
 
             {/* Right Section: Comments */}
-            <div className="flex-1 bg-gray-800 p-6 rounded-lg ml-10">
+            <div className=" bg-gray-800 p-6 rounded-lg mx-10 md:mx-40 mt-10">
                 <h2 className="text-xl font-bold text-white mb-4">Comments</h2>
                 
                 {/* Form to Add Comment */}

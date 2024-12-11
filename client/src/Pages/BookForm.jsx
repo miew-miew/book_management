@@ -10,13 +10,19 @@ export default function BookForm() {
         description: ''
     });
     const [bookCover, setBookCover] = useState(null);
-    const [chapters, setChapters] = useState([{ title: '', content: '' }]); // Initial state for chapters
+    const [bookCoverPreview, setBookCoverPreview] = useState(null); // État pour l'aperçu de l'image
+    const [chapters, setChapters] = useState([{ title: '', content: '' }]);
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
     const navigate = useNavigate();
 
     const handleFileChange = (e) => {
-        setBookCover(e.target.files[0]);
+        const file = e.target.files[0];
+        setBookCover(file);
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setBookCoverPreview(imageUrl); // Mettre à jour l'aperçu de l'image
+        }
     };
 
     const handleChapterChange = (index, field, value) => {
@@ -39,20 +45,17 @@ export default function BookForm() {
         setLoading(true);
         setErrors(null);
 
-        // Filtrer les chapitres vides
         const filteredChapters = chapters.filter(
             (chapter) => chapter.title.trim() || chapter.content.trim()
         );
 
-        // Construire les données
         const data = {
             title: bookData.title,
             author: bookData.author,
             description: bookData.description,
-            chapters: filteredChapters, // Inclure uniquement les chapitres valides
+            chapters: filteredChapters,
         };
 
-        // Ajouter les données au FormData pour inclure l'image
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
             if (key === "chapters") {
@@ -70,7 +73,6 @@ export default function BookForm() {
             formData.append("book_cover", bookCover);
         }
 
-        // Envoi des données
         try {
             await axiosClient.post("/api/books", formData);
             setLoading(false);
@@ -85,7 +87,7 @@ export default function BookForm() {
     };
     
     return (
-        <div className="p-4">
+        <div className="p-4 bg-white">
             <h2 className="text-2xl font-semibold mb-4">Add a New Book</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <Input    
@@ -120,8 +122,15 @@ export default function BookForm() {
                         hover:file:bg-blue-500"
                     />
                 </div>
-
-                {/* Chapter Section */}
+                {bookCoverPreview && (
+                    <div className="mt-4">
+                        <img 
+                            src={bookCoverPreview} 
+                            alt="Book Cover Preview" 
+                            className="w-32 h-32 object-cover rounded-md" 
+                        />
+                    </div>
+                )}
                 <div className="mt-6">
                     <h3 className="text-xl font-semibold mb-2">Chapters</h3>
                     {chapters.map((chapter, index) => (
