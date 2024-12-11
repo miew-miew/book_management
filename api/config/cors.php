@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['*'],
+    'paths' => ['api/*','*'],
     'allowed_methods' => ['GET', 'POST', 'PUT', 'OPTIONS'],
     'allowed_origins' => ['https://book-management-gules-beta.vercel.app'],
     'allowed_origins_patterns' => [],
