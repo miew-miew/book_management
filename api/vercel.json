@@ -1,13 +1,16 @@
 {
     "version": 2,
-    "framework": null,
     "functions": {
-        "public/index.php": { "runtime": "vercel-php@0.6.0" }
+        "api/public/index.php": { "runtime": "vercel-php@0.6.0" }
     },
     "routes": [
         {
+            "src": "/api/(.*)",
+            "dest": "/api/public/index.php"
+        },
+        {
             "src": "/(.*)",
-            "dest": "/public/index.php"
+            "dest": "/client/$1"
         }
     ],
     "env": {
@@ -15,14 +18,12 @@
         "APP_DEBUG": "true",
         "APP_URL": "https://book-api.vercel.app",
         "APP_KEY": "base64:Sckv8+XOwOD449C2KAyDqNQMDXcnCzZQUgbcIzNqIF4=",
-
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "VIEW_COMPILED_PATH": "/tmp",
-
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie"
