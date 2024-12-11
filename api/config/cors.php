@@ -15,20 +15,13 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
-
-    'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['*'],
-
+    'paths' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'OPTIONS'],
+    'allowed_origins' => ['https://book-management-gules-beta.vercel.app'],
     'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['*'],
-
+    'allowed_headers' => ['Content-Type', 'Authorization'],
     'exposed_headers' => [],
-
     'max_age' => 0,
-
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
