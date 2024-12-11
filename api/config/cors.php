@@ -15,8 +15,8 @@ return [
     |
     */
 
-    'paths' => ['api/*','*'],
-    'allowed_methods' => ['GET', 'POST', 'PUT', 'OPTIONS'],
+    'paths' => ['*', 'sanctum/csrf-cookie'],
+    'allowed_methods' => ['*'],
     'allowed_origins' => ['https://book-management-gules-beta.vercel.app'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['Content-Type', 'Authorization'],
