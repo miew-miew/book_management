@@ -52,6 +52,22 @@ export default function Book() {
             });
     };
 
+    const markChapterAsRead = (chapterId) => {
+        axiosClient
+            .post(`/api/books/${id}/chapters/${chapterId}/read`)
+            .then(() => {
+                setReadChapters((prevReadChapters) => [...prevReadChapters, chapterId]);
+            })
+            .catch((error) => {
+                console.error("Failed to mark chapter as read:", error);
+            });
+    };
+    const handleChapterClick = (chapterId) => {
+        if (!readChapters.includes(chapterId)) {
+            markChapterAsRead(chapterId);
+        }
+    };
+
     const getComments = () => {
         axiosClient
             .get(`/api/books/${id}/comments`)
@@ -119,7 +135,7 @@ export default function Book() {
                                         >
                                             <Link
                                                 to={`/${book.title}/${id}/chapter/${chapter.id}`}
-                                                onClick={() => !readChapters.includes(chapter.id) && markChapterAsRead(chapter.id)}
+                                                onClick={() => handleChapterClick(chapter.id)}
                                             >
                                                 {chapter.title}
                                             </Link>

@@ -31,13 +31,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
-// Route pour le manifest.webmanifest
-Route::get('/manifest.webmanifest', function () {
-    return response()->file(public_path('manifest.webmanifest'));
-});
-
-// Route pour le service-worker.js
-Route::get('/service-worker.js', function () {
-    return response()->file(public_path('sw.js')); // Assurez-vous que le nom du fichier est correct
-});
