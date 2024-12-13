@@ -42,49 +42,48 @@ export default function BookForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setErrors(null);
-
-        const filteredChapters = chapters.filter(
-            (chapter) => chapter.title.trim() || chapter.content.trim()
-        );
-
-        const data = {
-            title: bookData.title,
-            author: bookData.author,
-            description: bookData.description,
-            chapters: filteredChapters,
-        };
-
+    
         const formData = new FormData();
-        Object.entries(data).forEach(([key, value]) => {
-            if (key === "chapters") {
-                value.forEach((chapter, index) => {
-                    Object.entries(chapter).forEach(([chapterKey, chapterValue]) => {
-                        formData.append(`chapters[${index}][${chapterKey}]`, chapterValue);
-                    });
-                });
-            } else {
-                formData.append(key, value);
-            }
-        });
-
+        formData.append("title", bookData.title);
+        formData.append("author", bookData.author);
+        formData.append("description", bookData.description);
+        
+        // Ajout du fichier book_cover au FormData
         if (bookCover) {
             formData.append("book_cover", bookCover);
         }
+        
+        // Ajout des chapitres au FormData
+        chapters.forEach((chapter, index) => {
+            formData.append(`chapters[${index}][title]`, chapter.title);
+            formData.append(`chapters[${index}][content]`, chapter.content);
+        });
 
-        try {
-            await axiosClient.post("/api/books", formData);
-            setLoading(false);
-            navigate("/");
-        } catch (error) {
-            setLoading(false);
-            if (error.response && error.response.data) {
-                setErrors(error.response.data.errors || "An error occurred");
-            }
-            console.error("Failed to save book:", error);
+        // Affiche les données dans le console log pour déboguer
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
         }
-    };
+    
+        try {
+            setLoading(true);
+            await axiosClient.post("/api/books", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            alert("Book added successfully!");
+            navigate("/"); // Redirige vers la liste des livres après ajout
+        } catch (err) {
+            console.error(err);
+            if (err.response && err.response.status === 422) {
+                setErrors(err.response.data.errors || {});
+            } else {
+                setErrors({ general: "An unexpected error occurred." });
+            }
+        } finally {
+            setLoading(false);
+        }
+    };    
     
     return (
         <div className="p-4 bg-white">
